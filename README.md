@@ -44,8 +44,9 @@ A simple, real-time bookmark manager built with **Next.js (App Router)**, **Supa
     - Add `http://localhost:3000/auth/callback` to **Redirect URLs**.
     - (After deployment) Add `https://<your-vercel-project>.vercel.app/auth/callback` as well.
 4.  **Realtime**:
-    - Go to **Database** -> **Replication**.
-    - Toggle **ON** for the `bookmarks` table (click the generic `postgres_changes` checkbox or specifically for the table).
+    - Go to **Database** -> **Replication** -> **supabase_realtime** publication.
+    - Toggle **ON** the switch for the `bookmarks` table.
+    - Click **Save**.
 
 ### 3. Run Locally
 
@@ -54,6 +55,38 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
+
+---
+
+## How This Project Meets the Requirements
+
+### 1\. Google Sign-In (No Email/Password)
+-   **Frontend**: The `LoginButton.tsx` component triggers `supabase.auth.signInWithOAuth({ provider: 'google' })`.
+-   **Backend**: The `src/app/auth/callback/route.ts` handler processes the OAuth code from Google and exchanges it for a user session.
+-   **Middleware**: `src/middleware.ts` maintains this session.
+
+### 2\. Creating Bookmarks
+-   **Frontend**: `BookmarkForm.tsx` captures user input.
+-   **Backend**: Submits to Supabase via `supabase.from('bookmarks').insert(...)`.
+-   **Security**: RLS policies ensure only authenticated users can insert.
+
+### 3\. Private Bookmarks (RLS)
+-   **Database**: The `bookmarks` table includes a `user_id` column.
+-   **Security**: A Row Level Security policy (`Users can see their own bookmarks`) enforces strict data isolation. Even if a user tries to query all data, the database only returns their own rows.
+
+### 4\. Real-time Updates
+-   **Tech**: Uses Supabase Realtime (PostgreSQL Replication).
+-   **Implementation**: `BookmarkList.tsx` subscribes to the `bookmarks` table using `supabase.channel(...)`.
+-   **result**: When a bookmark is added/deleted in one tab, Supabase pushes the change to all other connected clients instantly.
+
+### 5\. Deleting Bookmarks
+-   **Frontend**: `BookmarkItem.tsx` provides a delete button.
+-   **Backend**: Executes `supabase.from('bookmarks').delete().eq('id', ...)`.
+-   **Security**: RLS policy (`Users can delete their own bookmarks`) prevents users from deleting others' data.
+
+### 6\. Deployment (Vercel)
+-   The project is deployed on Vercel.
+-   Environment variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`) are configured in the Vercel dashboard.
 
 ---
 
