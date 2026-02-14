@@ -126,7 +126,14 @@ const LandingPage = ({ initialUser }: { initialUser: any }) => {
                         and access them from anywhere.
                     </p>
 
-
+                    <div className="hidden md:flex justify-center mt-10">
+                        <button
+                            onClick={handleGetStarted}
+                            className="bg-[#0083FF] hover:bg-blue-600 text-white font-semibold text-[20px] px-14 py-4 rounded-full shadow-lg transition active:scale-95"
+                        >
+                            Get Started
+                        </button>
+                    </div>
                 </div>
             </section>
 
