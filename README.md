@@ -104,7 +104,11 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 **Problem**: The "Get Started" button needs to be intelligent. It shouldn't just be a link; it needs to check if a user is logged in and either show a Login Modal or redirect to the Dashboard seamlessly.
 **Solution**: I built a unified `handleGetStarted` logic. It uses the Supabase client to check the current session. If no session exists, it triggers a sophisticated glassmorphism modal; if the user is authenticated, it performs a smooth client-side transition to `/dashboard`. This minimizes friction and keeps the user in the "flow."
 
-### Challenge 4: Real-time subscriptions vs. Server-Side Rendering
+### Challenge 4: Real-time Updates Without a Custom Backend (The "Socket.io" Dilemma)
+**Problem**: Traditional real-time features usually require a dedicated backend server running **Socket.io** or WebSockets, and a custom polling or event-emitting logic. For a lean project, managing a separate backend just for real-time updates felt like unnecessary overhead.
+**Solution**: I leveraged **Supabase Realtime**, which uses **Change Data Capture (CDC)** directly from the PostgreSQL database. By enabling replication on the `bookmarks` table, the database itself emits events to any connected client via a secure WebSocket channel. This allowed me to keep the architecture "serverless" and lean while achieving sub-second sync across all devices without writing a single line of backend socket code.
+
+### Challenge 5: Real-time subscriptions vs. Server-Side Rendering
 **Problem**: Next.js App Router uses Server Components by default, but Supabase Realtime requires a persistent WebSocket connection, which must happen on the client.
 **Solution**: I separated the logic. The initial data fetch happens on the server (in `page.tsx`) for SEO and fast initial load. The real-time subscription logic is placed in a client component (`BookmarkList.tsx`) that hydrates with the initial data. This gives the best of both worlds: fast first paint + real-time interactivity.
 
