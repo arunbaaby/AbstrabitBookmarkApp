@@ -92,14 +92,22 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 
 ## Technical Challenges & Solutions
 
-### Challenge 1: Real-time subscriptions in Server Components vs Client Components
+### Challenge 1: Visual Hierarchy & Horizontal Alignment
+**Problem**: In the initial dashboard design, the "Workspace" heading was inside the same grid as the "Quick Add" form and "Recent Activity" feed. On different screen sizes, this caused the functional components to start at different vertical heights, breaking the professional "horizontal baseline."
+**Solution**: I decoupled the "Workspace" header from the grid layout entirely. By placing it in its own container above the grid, I ensured that the sidebar (stats) and the main content area (form) always start at the exact same pixel-perfect vertical baseline across all resolutions.
+
+### Challenge 2: Mobile-First UX (Persistence vs. Clutter)
+**Problem**: A standard navigation header is often too small or hidden behind a hamburger menu on mobile, making the primary "Add Bookmark" action inaccessible.
+**Solution**: I implemented a persistent, Any.do-style sticky bottom bar specifically for mobile devices. This bar contains the brand identity and a prominent "Get Started" button that is always within thumb-reach. To keep it clean, I used conditional rendering (`hidden md:flex`) to ensure this mobile bar never interferes with the desktop layout, which retains a traditional top-nav header.
+
+### Challenge 3: Strategic Call-to-Action (CTA) Logic
+**Problem**: The "Get Started" button needs to be intelligent. It shouldn't just be a link; it needs to check if a user is logged in and either show a Login Modal or redirect to the Dashboard seamlessly.
+**Solution**: I built a unified `handleGetStarted` logic. It uses the Supabase client to check the current session. If no session exists, it triggers a sophisticated glassmorphism modal; if the user is authenticated, it performs a smooth client-side transition to `/dashboard`. This minimizes friction and keeps the user in the "flow."
+
+### Challenge 4: Real-time subscriptions vs. Server-Side Rendering
 **Problem**: Next.js App Router uses Server Components by default, but Supabase Realtime requires a persistent WebSocket connection, which must happen on the client.
 **Solution**: I separated the logic. The initial data fetch happens on the server (in `page.tsx`) for SEO and fast initial load. The real-time subscription logic is placed in a client component (`BookmarkList.tsx`) that hydrates with the initial data. This gives the best of both worlds: fast first paint + real-time interactivity.
 
-### Challenge 2: Handling Authentication State
-**Problem**: Syncing auth state between server (cookies) and client (local storage/memory) can be tricky in Next.js.
-**Solution**: I used the `@supabase/ssr` package which simplifies cookie-based auth. I implemented `middleware.ts` to refresh sessions and ensure the server always has the latest auth token.
-
-### Challenge 3: RLS Security
+### Challenge 5: RLS Security & Data Integrity
 **Problem**: Ensuring User A cannot delete User B's bookmarks even if they send a malicious API request.
-**Solution**: I implemented Row Level Security (RLS) policies in the database. `using (auth.uid() = user_id)` ensures that even if someone tries to fetch or delete another user's bookmark ID, the database itself rejects the query.
+**Solution**: I implemented Row Level Security (RLS) policies in the database. `using (auth.uid() = user_id)` ensures that even if someone tries to fetch or delete another user's bookmark ID, the database itself rejects the query at the engine level.
