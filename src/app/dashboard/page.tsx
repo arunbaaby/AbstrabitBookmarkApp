@@ -57,7 +57,7 @@ export default async function Dashboard() {
                             <img
                                 src="/images/logo5.png"
                                 alt="smartbookmark Logo"
-                                className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+                                className="h-6 md:h-10 w-auto object-contain transition-transform group-hover:scale-105"
                             />
                         </Link>
 
@@ -76,12 +76,12 @@ export default async function Dashboard() {
                 </div>
             </header>
 
-            <main className="relative z-10 pt-24 pb-16">
+            <main className="relative z-10 pt-32 pb-16">
                 <div className="max-w-[1300px] mx-auto px-6 md:px-10">
                     {/* WORKSPACE HEADER - Moved outside grid for alignment */}
                     <header className="mb-10 text-center lg:text-left">
                         <div className="space-y-1">
-                            <h1 className="text-4xl md:text-5xl font-black text-black tracking-tighter leading-none">
+                            <h1 className="text-4xl md:text-5xl font-black text-black tracking-tighter leading-none mt-4 md:mt-0">
                                 Workspace
                             </h1>
                             <p className="text-gray-500 font-medium text-sm opacity-60">Manage your collection efficiently.</p>

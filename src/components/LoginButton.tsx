@@ -38,7 +38,7 @@ export default function LoginButton({ user }: { user: any }) {
         return (
             <button
                 onClick={handleLogout}
-                className="px-6 py-2 text-sm font-bold text-red-500 bg-red-50 border border-red-100 rounded-full hover:bg-red-100 transition-all active:scale-95 disabled:opacity-50"
+                className="px-4 py-1.5 md:px-6 md:py-2 text-[12px] md:text-sm font-black text-red-500 bg-red-50 border border-red-100 rounded-full hover:bg-red-100 transition-all active:scale-95 disabled:opacity-50 uppercase tracking-wider"
                 disabled={loading}
             >
                 {loading ? '...' : 'Sign Out'}
