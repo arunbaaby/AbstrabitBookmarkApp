@@ -85,6 +85,15 @@ export default async function Dashboard() {
                                 Workspace
                             </h1>
                             <p className="text-gray-500 font-medium text-sm opacity-60">Manage your collection efficiently.</p>
+                            <div className="lg:hidden mt-6">
+                                <Link
+                                    href="/bookmarks"
+                                    className="inline-flex items-center justify-center gap-2 py-3 px-8 bg-black text-white rounded-full font-black text-[12px] uppercase tracking-widest hover:bg-gray-800 transition-all active:scale-95 shadow-lg shadow-black/10"
+                                >
+                                    <Search size={14} />
+                                    Manage Library
+                                </Link>
+                            </div>
                         </div>
                     </header>
 
@@ -138,7 +147,7 @@ export default async function Dashboard() {
                                     </h2>
                                     <Link
                                         href="/bookmarks"
-                                        className="hidden md:flex text-[11px] font-black uppercase tracking-widest text-[#0083FF] hover:text-blue-700 items-center gap-1 group transition-colors"
+                                        className="flex text-[11px] font-black uppercase tracking-widest text-[#0083FF] hover:text-blue-700 items-center gap-1 group transition-colors"
                                     >
                                         View Library
                                         <span className="group-hover:translate-x-1 transition-transform">→</span>
