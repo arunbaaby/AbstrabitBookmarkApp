@@ -9,7 +9,6 @@ import LoginModal from './LoginModal'
 const LandingPage = ({ initialUser }: { initialUser: any }) => {
     const router = useRouter()
     const [user, setUser] = useState(initialUser)
-    const [isOpen, setIsOpen] = useState(false)
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
     const [showStickyCTA, setShowStickyCTA] = useState(false)
     const supabase = createClient()
@@ -91,26 +90,21 @@ const LandingPage = ({ initialUser }: { initialUser: any }) => {
                             )}
                         </ul>
 
-                        <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-2xl text-gray-700">
-                            {isOpen ? "✕" : "☰"}
-                        </button>
-                    </nav>
-
-                    {/* MOBILE NAV */}
-                    {isOpen && (
-                        <div className="lg:hidden border-t bg-white">
-                            <ul className="flex flex-col px-6 py-6 space-y-4">
-                                {user ? (
-                                    <>
-                                        <li><Link href="/dashboard" onClick={() => setIsOpen(false)} className="font-medium text-gray-700">Dashboard</Link></li>
-                                        <li><button onClick={() => { setIsOpen(false); supabase.auth.signOut().then(() => router.refresh()); }} className="font-medium text-red-500">Sign Out</button></li>
-                                    </>
-                                ) : (
-                                    <li><button onClick={handleLogin} className="font-medium text-[#0083FF]">Login</button></li>
-                                )}
-                            </ul>
+                        <div className="lg:hidden flex items-center">
+                            {user ? (
+                                <Link href="/dashboard" className="px-5 py-2 text-sm font-bold bg-gray-50 text-gray-700 rounded-full border border-gray-100">
+                                    Dashboard
+                                </Link>
+                            ) : (
+                                <button
+                                    onClick={handleLogin}
+                                    className="px-5 py-2 text-sm font-bold bg-[#0083FF] text-white rounded-full shadow-sm"
+                                >
+                                    Login
+                                </button>
+                            )}
                         </div>
-                    )}
+                    </nav>
                 </div>
             </header>
 
@@ -132,17 +126,7 @@ const LandingPage = ({ initialUser }: { initialUser: any }) => {
                         and access them from anywhere.
                     </p>
 
-                    <div className="mt-8 md:mt-10 flex flex-col items-center">
-                        <button
-                            onClick={handleGetStarted}
-                            className="bg-[#0083FF] hover:bg-blue-600 text-white font-semibold text-[18px] md:text-[20px] px-8 md:px-14 py-3.5 md:py-4 rounded-full shadow-md transition flex items-center gap-2"
-                        >
-                            Get Started. Right NOW →
-                        </button>
-                        <p className="mt-3 md:mt-4 text-[10px] md:text-sm text-gray-500 uppercase tracking-tight">
-                            ORGANIZE YOUR WEB. IN UNDER A MINUTE
-                        </p>
-                    </div>
+
                 </div>
             </section>
 
@@ -298,16 +282,26 @@ const LandingPage = ({ initialUser }: { initialUser: any }) => {
                 </div>
             </footer>
 
-            {/* STICKY CTA */}
+            {/* MOBILE STICKY CTA - Always Visible */}
+            <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/80 backdrop-blur-md border-t border-gray-100 p-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+                <button
+                    onClick={handleGetStarted}
+                    className="w-full bg-[#0083FF] text-white py-3 rounded-full font-black text-base shadow-lg shadow-blue-500/25 active:scale-[0.98] transition-all"
+                >
+                    Get Started
+                </button>
+            </div>
+
+            {/* DESKTOP STICKY BUTTON - Scroll Dependent */}
             {showStickyCTA && (
-                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-1.5 md:gap-2 w-[calc(100%-48px)] md:w-auto">
+                <div className="fixed bottom-0 left-0 right-0 z-40 hidden md:flex flex-col items-center gap-2 pb-8 pointer-events-none">
                     <button
                         onClick={handleGetStarted}
-                        className="bg-[#0083FF] hover:bg-blue-600 text-white font-semibold text-[17px] md:text-[20px] px-8 md:px-14 py-3.5 md:py-4 rounded-full shadow-lg transition flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 w-full md:w-auto"
+                        className="bg-[#0083FF] hover:bg-blue-600 text-white font-semibold text-[20px] px-14 py-4 rounded-full shadow-lg transition flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 pointer-events-auto"
                     >
                         Get Started. Right NOW →
                     </button>
-                    <p className="text-[10px] md:text-sm text-gray-500 text-center font-medium uppercase tracking-tight">
+                    <p className="text-sm text-gray-500 text-center font-medium uppercase tracking-tight">
                         ORGANIZE YOUR WEB. IN UNDER A MINUTE
                     </p>
                 </div>
