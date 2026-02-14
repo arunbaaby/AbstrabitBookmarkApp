@@ -232,7 +232,7 @@ const LandingPage = ({ initialUser }: { initialUser: any }) => {
                             { title: "Save Bookmarks", desc: "Add any URL instantly and manage your collection with ease.", image: "/images/Bookmarks-cuate.png" },
                             { title: "Sync Everywhere", desc: "Access your dashboard from any device in real-time.", image: "/images/Sync-rafiki.png" }
                         ].map((item, i) => (
-                            <div key={i} className="bg-white p-6 rounded-3xl shadow-2xl hover:shadow-xl transition text-center border border-gray-50 flex flex-col items-center">
+                            <div key={i} className="bg-white p-6 rounded-3xl transition text-center border border-gray-100 flex flex-col items-center hover:border-[#0083FF]/30">
                                 <div className="mb-4 md:mb-8 h-48 md:h-60 flex items-center justify-center">
                                     <img src={item.image} alt={item.title} className="h-full w-auto object-contain" />
                                 </div>
