@@ -41,8 +41,12 @@ export default function BookmarkList({ initialBookmarks }: { initialBookmarks: B
 
     if (bookmarks.length === 0) {
         return (
-            <div className="text-center p-8 text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-                <p>No bookmarks yet. Add one above! 👆</p>
+            <div className="text-center py-20 px-8 bg-gray-50 rounded-[32px] border-2 border-dashed border-gray-200">
+                <div className="text-6xl mb-6 opacity-20">📑</div>
+                <h3 className="text-xl font-bold text-black mb-2">No bookmarks yet</h3>
+                <p className="text-gray-500 max-w-xs mx-auto">
+                    Your collection is currently empty. Start by adding a new link above!
+                </p>
             </div>
         )
     }

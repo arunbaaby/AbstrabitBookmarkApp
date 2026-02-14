@@ -38,10 +38,10 @@ export default function LoginButton({ user }: { user: any }) {
         return (
             <button
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-red-600 bg-red-100 rounded-md hover:bg-red-200 disabled:opacity-50"
+                className="px-6 py-2 text-sm font-bold text-red-500 bg-red-50 border border-red-100 rounded-full hover:bg-red-100 transition-all active:scale-95 disabled:opacity-50"
                 disabled={loading}
             >
-                {loading ? 'Logging out...' : 'Sign Out'}
+                {loading ? '...' : 'Sign Out'}
             </button>
         )
     }
@@ -49,10 +49,10 @@ export default function LoginButton({ user }: { user: any }) {
     return (
         <button
             onClick={handleLogin}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50"
+            className="px-6 py-2 text-sm font-bold text-white bg-[#0083FF] rounded-full hover:bg-blue-600 transition-all shadow-md active:scale-95 disabled:opacity-50"
             disabled={loading}
         >
-            {loading ? 'Logging in...' : 'Sign in with Google'}
+            {loading ? '...' : 'Sign In'}
         </button>
     )
 }
